@@ -15,12 +15,12 @@ function Header({ isAuthenticated, onLogout, userRole }) {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            <Nav.Link as={Link} to="/">Главная</Nav.Link>
-            <Nav.Link as={Link} to="/me">Личный кабинет</Nav.Link>
-            <Nav.Link as={Link} to="/talks">Обращения</Nav.Link>
-            <Nav.Link as={Link} to="/bank_accounts">Счета</Nav.Link>
-            <Nav.Link as={Link} to="/transactions">Переводы</Nav.Link>
-            {userRole === 'ROLE_ADMIN' && <Nav.Link as={Link} to="/admin">Admin Panel</Nav.Link>}
+          <Nav.Link as={Link} to="/">Главная</Nav.Link>
+          {isAuthenticated && <Nav.Link as={Link} to="/me">Личный кабинет</Nav.Link>}
+          {isAuthenticated && <Nav.Link as={Link} to="/talks">Обращения</Nav.Link>}
+          {isAuthenticated && <Nav.Link as={Link} to="/bank_accounts">Счета</Nav.Link>}
+          {isAuthenticated && <Nav.Link as={Link} to="/transactions">Переводы</Nav.Link>}
+          {userRole === 'ROLE_ADMIN' && <Nav.Link as={Link} to="/admin">Admin Panel</Nav.Link>}
          
           {isAuthenticated ? (
             <Button variant="secondary" onClick={onLogout}>Logout</Button>

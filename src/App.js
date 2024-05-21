@@ -57,10 +57,10 @@ function App() {
   return (
     <Router>
       <div className="App">
-        {isAuthenticated && <Header isAuthenticated={isAuthenticated} onLogout={handleLogout} userRole={userRole}/>}
+        <Header isAuthenticated={isAuthenticated} onLogout={handleLogout} userRole={userRole}/>
         <Routes>
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/"element={<ProtectedRoute element={<Content />}/>}/>
+          <Route path="/"element={<Content />}/>
           <Route path="/me" element={<ProtectedRoute element={<User />} />} />
           <Route path="/talks" element={<ProtectedRoute element={<Talk />} />} />
           <Route path="/talks/:id" element={<ProtectedRoute element={<TalkHistory/>} />} />
