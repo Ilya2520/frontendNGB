@@ -19,7 +19,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 const ProtectedRoute = ({ element, ...rest }) => {
-  const token = Cookies.get('BEARER');
+  const token = Cookies.get('__Host-JWT');
   return token ? element : <Navigate to="/login" />;
 };
 
@@ -28,7 +28,7 @@ function App() {
   const [userRole, setUserRole] = useState(null);
 
   useEffect(() => {
-    const token = Cookies.get('BEARER');
+    const token = Cookies.get('__Host-JWT');
     if (token) {
       instance.get("users/me")
         .then(response => {
@@ -44,7 +44,7 @@ function App() {
   }, []);
 
   const handleLogout = () => {
-    Cookies.remove('BEARER');
+    Cookies.remove('__Host-JWT');
     setUserRole(null);
     Cookies.remove('USER_DATA');
     window.location.href = '/login'; // Перенаправление на страницу входа
@@ -54,7 +54,7 @@ function App() {
   return (
     <Router>
       <div className="App">
-        {Cookies.get('BEARER') !== undefined && <Header onLogout={handleLogout} userRole={userRole}/>}
+        {Cookies.get('__Host-JWT') !== undefined && <Header onLogout={handleLogout} userRole={userRole}/>}
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/"element={<ProtectedRoute element={<Content />}/>}/>
@@ -67,7 +67,7 @@ function App() {
           <Route path="/transactions/:id" element={<ProtectedRoute element={<TransactionDetails />} />} />
           <Route path="/admin" element={userRole === 'ROLE_ADMIN' ? <AdminPanel /> : <Navigate to="/" />} />
         </Routes>
-        {Cookies.get('BEARER') !== undefined && <Footer />}
+        {Cookies.get('__Host-JWT') !== undefined && <Footer />}
       </div>
     </Router>
   );

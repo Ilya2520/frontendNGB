@@ -15,7 +15,7 @@ const LoginPage = (onLoginSuccess) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const token = Cookies.get('BEARER');
+    const token = Cookies.get('__Host-JWT');
     if (token) {
       navigate('/'); // Перенаправление на основную страницу, если токен уже существует
     }
@@ -29,17 +29,11 @@ const LoginPage = (onLoginSuccess) => {
       setLoading(true);
       let res = await instance.post(API_ENDPOINTS.LOGIN, data,  {withCredentials: true});
       setSuccessMessage(res.data.message);
-      // // const userRes = await instance.get('/users/me');
-      // // const userData = userRes.data;
-      // Cookies.set('USER_DATA', JSON.stringify(userData));
-      setLoading(false);
-      console.log(res.data.token);
-      Cookies.set('BEARER', res.data.token, { expires: 1, sameSite: 'Lax', secure: true });
-      // console.log(res);
-      // console.log(res.headers);
-      //Cookies.set('BEARER', res.headers['set-cookie']);
-      setLoading(false);
-      //window.location.href = '/';
+      Cookies.set('__Host-JWT', res.data.token, { expires: 1, sameSite: 'Lax', secure: true });
+      const userRes = await instance.get('/users/me');
+      const userData = userRes.data;
+      Cookies.set('USER_DATA', JSON.stringify(userData));
+      window.location.href = '/';
     } catch (err) {
       setLoading(false);
       if (err.response && err.response.data.code === 401) {
@@ -47,10 +41,11 @@ const LoginPage = (onLoginSuccess) => {
     }
     else if(err.response.data.message){ 
       setError(err.response.data.message);
-  }
-  else {
-    setError("Ошибка при входе");
-  }
+    }
+    else {
+      setError("Ошибка при входе");
+    }
+    setLoading(false);
     }
   };
 
