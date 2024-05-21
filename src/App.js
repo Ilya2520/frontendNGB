@@ -26,6 +26,7 @@ const ProtectedRoute = ({ element, ...rest }) => {
 function App() {
   console.log("aaaa");
   const [userRole, setUserRole] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     const token = Cookies.get('__Host-JWT');
@@ -34,19 +35,21 @@ function App() {
         .then(response => {
           const userData = response.data;
           setUserRole(userData.role);
-
+          setIsAuthenticated(true);
           Cookies.set('USER_DATA', JSON.stringify(userData));
         })
         .catch(error => {
           console.error("Failed to fetch user data:", error);
+          setIsAuthenticated(false);
         });
     }
   }, []);
-
+  
   const handleLogout = () => {
-    Cookies.remove('__Host-JWT');
-    setUserRole(null);
+    Cookies.remove('__Host-JWT', { sameSite: 'Lax', secure: true });
     Cookies.remove('USER_DATA');
+    setUserRole(null);
+    setIsAuthenticated(false);
     window.location.href = '/login'; // Перенаправление на страницу входа
   };
 
@@ -54,7 +57,7 @@ function App() {
   return (
     <Router>
       <div className="App">
-        {Cookies.get('__Host-JWT') !== undefined && <Header onLogout={handleLogout} userRole={userRole}/>}
+        {isAuthenticated && <Header isAuthenticated={isAuthenticated} onLogout={handleLogout} userRole={userRole}/>}
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/"element={<ProtectedRoute element={<Content />}/>}/>
@@ -67,7 +70,7 @@ function App() {
           <Route path="/transactions/:id" element={<ProtectedRoute element={<TransactionDetails />} />} />
           <Route path="/admin" element={userRole === 'ROLE_ADMIN' ? <AdminPanel /> : <Navigate to="/" />} />
         </Routes>
-        {Cookies.get('__Host-JWT') !== undefined && <Footer />}
+        {isAuthenticated && <Footer />}
       </div>
     </Router>
   );

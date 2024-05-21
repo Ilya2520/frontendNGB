@@ -83,7 +83,7 @@ const LoginPage = (onLoginSuccess) => {
         </Form>
         {loading===true && (
             <Spinner animation="border" role="status" className="mt-5">
-              <span className="sr-only">Loading...</span>
+              <span className="sr-only">Loading</span>
             </Spinner>
         )}
 

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Navbar, Nav, Button } from 'react-bootstrap';
 import logo from '../images/logo.png';
 
-function Header({ onLogout, userRole }) {
+function Header({ isAuthenticated, onLogout, userRole }) {
   return (
     <header>
       <Navbar bg="#095776" variant="dark" expand="lg" fixed="top">
@@ -21,8 +21,13 @@ function Header({ onLogout, userRole }) {
             <Nav.Link as={Link} to="/bank_accounts">Счета</Nav.Link>
             <Nav.Link as={Link} to="/transactions">Переводы</Nav.Link>
             {userRole === 'ROLE_ADMIN' && <Nav.Link as={Link} to="/admin">Admin Panel</Nav.Link>}
-          </Nav>
-          <Button variant="secondary" onClick={onLogout}>Logout</Button>
+         
+          {isAuthenticated ? (
+            <Button variant="secondary" onClick={onLogout}>Logout</Button>
+          ) : (
+           <Nav.Link as={Link} to="/login">Login</Nav.Link>
+          )}
+           </Nav>
         </Navbar.Collapse>
       </Navbar>
       <div style={{ paddingTop: '105px' }}></div>
