@@ -1,4 +1,4 @@
-export const BASE_URL = 'http://localhost:8000/api';
+export const BASE_URL = "https://backendngb.onrender.com/api";
 export const API_ENDPOINTS = {
   LOGIN: '/auth/token/login',
   REGISTER: '/register',

@@ -4,7 +4,7 @@ import './styles/LoginPage.css';
 import Cookies from 'js-cookie';
 import instance from '../Services/axiosInstance'; // используем axios instance для запросов
 import { API_ENDPOINTS } from '../constants';
-import { Container, Form, Button,Col,Row } from 'react-bootstrap';
+import {Container, Form, Button, Col, Row, Spinner} from 'react-bootstrap';
 
 const LoginPage = (onLoginSuccess) => {
   const [email, setEmail] = useState('');
@@ -12,6 +12,7 @@ const LoginPage = (onLoginSuccess) => {
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState('');
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const token = Cookies.get('BEARER');
@@ -25,14 +26,16 @@ const LoginPage = (onLoginSuccess) => {
     const data = { email, password };
 
     try {
+      setLoading(true);
       let res = await instance.post(API_ENDPOINTS.LOGIN, data);
       setSuccessMessage(res.data.message);
       const userRes = await instance.get('/users/me');
       const userData = userRes.data;
       Cookies.set('USER_DATA', JSON.stringify(userData));
+      setLoading(false);
       window.location.href = '/';
-    } catch (err) 
-    {
+    } catch (err) {
+      setLoading(false);
       if (err.response && err.response.data.code === 401) {
       setError("Не существует пользователя");
     }
@@ -47,12 +50,16 @@ const LoginPage = (onLoginSuccess) => {
 
   const handleRegister = async () => {
     try {
+      setLoading(true);
       // Выполняем регистрацию
       let res = await instance.post(API_ENDPOINTS.REGISTER, { email, password });
       setSuccessMessage(res.data.message);
       // Обновляем страницу после успешной регистрации
+
+      setLoading(false);
       window.location.reload();
     } catch (err) {
+      setLoading(false);
       setError(err.response.data.message);
     }
   };
@@ -73,6 +80,12 @@ const LoginPage = (onLoginSuccess) => {
           <Button variant="primary" type="submit" className="w-100 mb-2">Login</Button>
           <Button variant="secondary" onClick={handleRegister} className="w-100">Register</Button>
         </Form>
+        {loading===true && (
+            <Spinner animation="border" role="status" className="mt-5">
+              <span className="sr-only">Loading...</span>
+            </Spinner>
+        )}
+
         {error && <div className="error text-center mt-3">Error: {error}</div>}
         {successMessage && <div className="success text-center mt-3">{successMessage}</div>}
       </div>
