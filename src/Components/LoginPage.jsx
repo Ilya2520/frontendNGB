@@ -29,9 +29,9 @@ const LoginPage = (onLoginSuccess) => {
       setLoading(true);
       let res = await instance.post(API_ENDPOINTS.LOGIN, data);
       setSuccessMessage(res.data.message);
-      const userRes = await instance.get('/users/me');
-      const userData = userRes.data;
-      Cookies.set('USER_DATA', JSON.stringify(userData));
+      // // const userRes = await instance.get('/users/me');
+      // // const userData = userRes.data;
+      // Cookies.set('USER_DATA', JSON.stringify(userData));
       setLoading(false);
       window.location.href = '/';
     } catch (err) {
