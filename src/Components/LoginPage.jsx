@@ -33,6 +33,8 @@ const LoginPage = (onLoginSuccess) => {
       // // const userData = userRes.data;
       // Cookies.set('USER_DATA', JSON.stringify(userData));
       setLoading(false);
+      console.log(res);
+      console.log(res.headers);
       window.location.href = '/';
     } catch (err) {
       setLoading(false);
