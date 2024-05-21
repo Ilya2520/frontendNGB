@@ -106,8 +106,10 @@ const TalkHistory = () => {
       </Card>
     ))
   ) : (
-        <p>No messages available</p>
-      )}
+    <Spinner animation="border" role="status">
+      <span className="sr-only">Loading...</span>
+    </Spinner>
+  )}
     </div>
 
     <Container fluid className="d-flex justify-content-end mb-2">

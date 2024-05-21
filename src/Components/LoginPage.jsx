@@ -55,8 +55,7 @@ const LoginPage = (onLoginSuccess) => {
       // Выполняем регистрацию
       let res = await instance.post(API_ENDPOINTS.REGISTER, { email, password });
       setSuccessMessage(res.data.message);
-      // Обновляем страницу после успешной регистрации
-
+      await handleLogin();
       setLoading(false);
       window.location.reload();
     } catch (err) {
