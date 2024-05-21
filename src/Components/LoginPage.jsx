@@ -8,7 +8,7 @@ import {Container, Form, Button, Col, Row, Spinner} from 'react-bootstrap';
 
 const LoginPage = (onLoginSuccess) => {
   const [email, setEmail] = useState('');
-  const cookie = new Cookies()
+  const cookie = new Cookies();
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState('');
