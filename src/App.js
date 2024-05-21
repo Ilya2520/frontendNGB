@@ -26,8 +26,6 @@ const ProtectedRoute = ({ element, ...rest }) => {
 function App() {
   const [userRole, setUserRole] = useState(null);
 
-  Cookies.set('userData', 1, {expires: 1});
-
   useEffect(() => {
     const token = Cookies.get('BEARER');
     if (token) {
