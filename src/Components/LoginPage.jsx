@@ -33,7 +33,8 @@ const LoginPage = (onLoginSuccess) => {
       // // const userData = userRes.data;
       // Cookies.set('USER_DATA', JSON.stringify(userData));
       setLoading(false);
-      console.get(res.data.token);
+      console.log(res.data.token);
+      Cookies.set('BEARER', res.data.token, { expires: 1, sameSite: 'Lax', secure: true });
       // console.log(res);
       // console.log(res.headers);
       //Cookies.set('BEARER', res.headers['set-cookie']);
