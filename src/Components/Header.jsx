@@ -4,6 +4,10 @@ import { Navbar, Nav, Button } from 'react-bootstrap';
 import logo from '../images/logo.png';
 
 function Header({ isAuthenticated, onLogout, userRole }) {
+  const handleBack = () =>{
+    window.location.href='/login';
+  }
+
   return (
     <header>
       <Navbar bg="#095776" variant="dark" expand="lg" fixed="top">
@@ -25,7 +29,7 @@ function Header({ isAuthenticated, onLogout, userRole }) {
           {isAuthenticated ? (
             <Button variant="secondary" onClick={onLogout}>Logout</Button>
           ) : (
-           <Nav.Link as={Link} to="/login">Login</Nav.Link>
+            <Button variant="primary" onClick={handleBack} className="mt-3 me-2">Login`</Button>
           )}
            </Nav>
         </Navbar.Collapse>
