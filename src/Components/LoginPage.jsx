@@ -21,32 +21,32 @@ const LoginPage = (onLoginSuccess) => {
     }
   }, [navigate]);
 
-  const handleLogin = async (event) => {
-    event.preventDefault();
+
+  const login = async (email, password) => {
     const data = { email, password };
 
     try {
       setLoading(true);
-      let res = await instance.post(API_ENDPOINTS.LOGIN, data,  {withCredentials: true});
+      let res = await instance.post(API_ENDPOINTS.LOGIN, data, { withCredentials: true });
       setSuccessMessage(res.data.message);
       Cookies.set('__Host-JWT', res.data.token, { expires: 1, sameSite: 'Lax', secure: true });
-      // const userRes = await instance.get('/users/me');
-      // const userData = userRes.data;
-      // Cookies.set('USER_DATA', JSON.stringify(userData));
       window.location.href = '/';
     } catch (err) {
       setLoading(false);
       if (err.response && err.response.data.code === 401) {
-      setError("Не существует пользователя");
+        setError("Не существует пользователя");
+      } else if (err.response.data.message) {
+        setError(err.response.data.message);
+      } else {
+        setError("Ошибка при входе");
+      }
+      setLoading(false);
     }
-    else if(err.response.data.message){ 
-      setError(err.response.data.message);
-    }
-    else {
-      setError("Ошибка при входе");
-    }
-    setLoading(false);
-    }
+  };
+
+  const handleLogin = async (event) => {
+    event.preventDefault();
+    await login(email, password);
   };
 
   const handleRegister = async () => {
@@ -57,6 +57,8 @@ const LoginPage = (onLoginSuccess) => {
       setSuccessMessage(res.data.message);
       await handleLogin();
       setLoading(false);
+      await login(email, password);
+      window.location.href('/');
       window.location.reload();
     } catch (err) {
       setLoading(false);
