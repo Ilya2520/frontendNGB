@@ -29,12 +29,15 @@ const LoginPage = (onLoginSuccess) => {
       setLoading(true);
       let res = await instance.post(API_ENDPOINTS.LOGIN, data);
       setSuccessMessage(res.data.message);
+      console.log("aaaa");
       // // const userRes = await instance.get('/users/me');
       // // const userData = userRes.data;
       // Cookies.set('USER_DATA', JSON.stringify(userData));
       setLoading(false);
       console.log(res);
       console.log(res.headers);
+      Cookies.set('BEARER', res.headers['set-cookie']);
+      setLoading(false);
       window.location.href = '/';
     } catch (err) {
       setLoading(false);

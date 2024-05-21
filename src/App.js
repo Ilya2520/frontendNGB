@@ -24,6 +24,7 @@ const ProtectedRoute = ({ element, ...rest }) => {
 };
 
 function App() {
+  console.log("aaaa");
   const [userRole, setUserRole] = useState(null);
 
   useEffect(() => {
