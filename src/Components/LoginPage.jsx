@@ -30,9 +30,9 @@ const LoginPage = (onLoginSuccess) => {
       let res = await instance.post(API_ENDPOINTS.LOGIN, data,  {withCredentials: true});
       setSuccessMessage(res.data.message);
       Cookies.set('__Host-JWT', res.data.token, { expires: 1, sameSite: 'Lax', secure: true });
-      const userRes = await instance.get('/users/me');
-      const userData = userRes.data;
-      Cookies.set('USER_DATA', JSON.stringify(userData));
+      // const userRes = await instance.get('/users/me');
+      // const userData = userRes.data;
+      // Cookies.set('USER_DATA', JSON.stringify(userData));
       window.location.href = '/';
     } catch (err) {
       setLoading(false);
