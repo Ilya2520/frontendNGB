@@ -29,7 +29,7 @@ function Header({ isAuthenticated, onLogout, userRole }) {
           {isAuthenticated ? (
             <Button variant="secondary" onClick={onLogout}>Logout</Button>
           ) : (
-            <Button variant="primary" onClick={handleBack} className="mt-3 me-2">Login`</Button>
+            <Button variant="primary" onClick={handleBack} className="">Login</Button>
           )}
            </Nav>
         </Navbar.Collapse>
