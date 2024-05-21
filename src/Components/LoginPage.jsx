@@ -36,9 +36,9 @@ const LoginPage = (onLoginSuccess) => {
       setLoading(false);
       console.log(res);
       console.log(res.headers);
-      Cookies.set('BEARER', res.headers['set-cookie']);
+      //Cookies.set('BEARER', res.headers['set-cookie']);
       setLoading(false);
-      window.location.href = '/';
+      //window.location.href = '/';
     } catch (err) {
       setLoading(false);
       if (err.response && err.response.data.code === 401) {
