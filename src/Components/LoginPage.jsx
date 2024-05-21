@@ -5,13 +5,11 @@ import Cookies from 'js-cookie';
 import instance from '../Services/axiosInstance'; // используем axios instance для запросов
 import { API_ENDPOINTS } from '../constants';
 import {Container, Form, Button, Col, Row, Spinner} from 'react-bootstrap';
-import {Cookies as Cook} from 'universal-cookie' ;
 
 const LoginPage = (onLoginSuccess) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
-  const cookie = new Cook()
   const [successMessage, setSuccessMessage] = useState('');
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -29,14 +27,13 @@ const LoginPage = (onLoginSuccess) => {
 
     try {
       setLoading(true);
-      let res = await instance.post(API_ENDPOINTS.LOGIN, data);
+      let res = await instance.post(API_ENDPOINTS.LOGIN, data,  {withCredentials: true});
       setSuccessMessage(res.data.message);
       // // const userRes = await instance.get('/users/me');
       // // const userData = userRes.data;
       // Cookies.set('USER_DATA', JSON.stringify(userData));
       setLoading(false);
       console.get(res.data.token);
-      cookie.set("__Host-JWT", res.data.token)
       // console.log(res);
       // console.log(res.headers);
       //Cookies.set('BEARER', res.headers['set-cookie']);
