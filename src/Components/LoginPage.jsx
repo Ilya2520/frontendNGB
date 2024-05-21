@@ -50,19 +50,16 @@ const LoginPage = (onLoginSuccess) => {
   };
 
   const handleRegister = async () => {
+    setLoading(true);
     try {
-      setLoading(true);
-      // Выполняем регистрацию
       let res = await instance.post(API_ENDPOINTS.REGISTER, { email, password });
       setSuccessMessage(res.data.message);
-      await handleLogin();
-      setLoading(false);
-      await login(email, password);
-      window.location.href('/');
-      window.location.reload();
+      await login(email, password)
     } catch (err) {
-      setLoading(false);
       setError(err.response.data.message);
+    }
+    finally {
+      setLoading(false);
     }
   };
 
